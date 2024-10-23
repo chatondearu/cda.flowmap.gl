@@ -9,7 +9,7 @@ import {
   Cluster,
   ClusterNode,
   LocationTotals,
-} from '@cda.flowmap.gl/data';
+} from '@chatondearu/flowmap.gl.data';
 
 export type LayerProps = Record<string, unknown>;
 

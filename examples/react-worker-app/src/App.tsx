@@ -11,8 +11,8 @@ import {
   FlowmapLayer,
   FlowmapLayerPickingInfo,
   PickingType,
-} from '@cda.flowmap.gl/layers';
-import {ViewState} from '@cda.flowmap.gl/data';
+} from '@chatondearu/flowmap.gl.layers';
+import {ViewState} from '@chatondearu/flowmap.gl.data';
 import {
   FlowDatum,
   LocationDatum,

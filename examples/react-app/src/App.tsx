@@ -10,8 +10,8 @@ import {
   FlowmapLayer,
   FlowmapLayerPickingInfo,
   PickingType,
-} from '@cda.flowmap.gl/layers';
-import {FlowmapData, getViewStateForLocations} from '@cda.flowmap.gl/data';
+} from '@chatondearu/flowmap.gl.layers';
+import {FlowmapData, getViewStateForLocations} from '@chatondearu/flowmap.gl.data';
 import {Map as ReactMapGl, ViewState as ViewportProps} from 'react-map-gl';
 import {
   fetchData,

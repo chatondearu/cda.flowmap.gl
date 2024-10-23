@@ -1,7 +1,7 @@
 {
   "name": "@cda.flowmap.gl/react-app",
   "private": true,
-  "version": "8.0.2",
+  "version": "9.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@deck.gl/react": "^8.9.28",
-    "@cda.flowmap.gl/data": "^8.0.2",
-    "@cda.flowmap.gl/layers": "^8.0.2",
+    "@chatondearu/flowmap.gl.data": "^8.0.2",
+    "@chatondearu/flowmap.gl.layers": "^8.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.1.6"

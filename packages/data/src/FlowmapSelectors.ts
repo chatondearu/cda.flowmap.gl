@@ -7,12 +7,7 @@
 import {ascending, descending, extent, min, rollup} from 'd3-array';
 import {ScaleLinear, scaleSqrt} from 'd3-scale';
 import KDBush from 'kdbush';
-import {
-  ParametricSelector,
-  createSelector,
-  createSelectorCreator,
-  defaultMemoize,
-} from 'reselect';
+import {createSelector, createSelectorCreator, lruMemoize} from 'reselect';
 import {alea} from 'seedrandom';
 import FlowmapAggregateAccessors from './FlowmapAggregateAccessors';
 import {FlowmapState} from './FlowmapState';
@@ -643,10 +638,12 @@ export default class FlowmapSelectors<
           return m;
         }, new Map<number, number>());
 
-        return Array.from(byTime.entries()).map(([millis, count]) => ({
-          time: new Date(millis),
-          count,
-        }));
+        return (Array.from(byTime.entries()) as [number, number][]).map(
+          ([millis, count]) => ({
+            time: new Date(millis),
+            count,
+          }),
+        );
       },
     );
 
@@ -764,7 +761,7 @@ export default class FlowmapSelectors<
 
   getLocationIdsInViewport: Selector<L, F, Set<string | number> | undefined> =
     createSelectorCreator(
-      defaultMemoize,
+      lruMemoize,
       // @ts-ignore
       (
         s1: Set<string> | undefined,

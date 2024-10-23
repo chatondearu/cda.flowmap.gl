@@ -16,7 +16,7 @@ import {
   FlowmapState,
   AggregateFlow,
   LocalFlowmapDataProvider,
-} from '@cda.flowmap.gl/data';
+} from '@chatondearu/flowmap.gl.data';
 import {load} from '@loaders.gl/core';
 import {CSVLoader} from '@loaders.gl/csv';
 

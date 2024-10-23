@@ -5,15 +5,15 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import GL from '@luma.gl/constants';
-import {Geometry, Model} from '@luma.gl/core';
+import {GL} from '@luma.gl/constants';
+import {Geometry, Model} from '@luma.gl/engine';
 import FragmentShader from './FlowLinesLayerFragment.glsl';
 import VertexShader from './FlowLinesLayerVertex.glsl';
 import {
   FlowLinesLayerAttributes,
   RGBA,
   colorAsRgba,
-} from '@cda.flowmap.gl/data';
+} from '@chatondearu/flowmap.gl.data';
 import {LayerProps} from '../types';
 
 export interface Props<F> extends LayerProps {
@@ -231,7 +231,7 @@ class FlowLinesLayer<F> extends Layer {
         },
       }),
       isInstanced: true,
-      shaderCache: this.context.shaderCache,
+      // shaderCache: this.context.shaderCache,
     });
   }
 }

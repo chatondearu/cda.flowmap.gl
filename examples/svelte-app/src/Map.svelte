@@ -3,8 +3,8 @@
   import { mapbox, key } from './mapbox.js';
   import {Deck} from "@deck.gl/core";
   import {fetchData} from "@cda.flowmap.gl/examples-common";
-  import {getViewStateForLocations} from "@cda.flowmap.gl/data";
-  import {FlowmapLayer} from "@cda.flowmap.gl/layers";
+  import {getViewStateForLocations} from "@chatondearu/flowmap.gl.data";
+  import {FlowmapLayer} from "@chatondearu/flowmap.gl.layers";
 
   setContext(key, {
      getMap: () => map,

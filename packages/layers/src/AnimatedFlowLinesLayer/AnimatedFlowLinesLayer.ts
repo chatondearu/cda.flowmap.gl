@@ -5,11 +5,11 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import GL from '@luma.gl/constants';
-import {Geometry, Model} from '@luma.gl/core';
+import {GL} from '@luma.gl/constants';
+import {Geometry, Model} from '@luma.gl/engine';
 import FragmentShader from './AnimatedFlowLinesLayerFragment.glsl';
 import VertexShader from './AnimatedFlowLinesLayerVertex.glsl';
-import {FlowLinesLayerAttributes, RGBA} from '@cda.flowmap.gl/data';
+import {FlowLinesLayerAttributes, RGBA} from '@chatondearu/flowmap.gl.data';
 import {LayerProps} from '../types';
 export interface Props<F> extends LayerProps {
   id: string;
@@ -150,7 +150,7 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
       .draw();
   }
 
-  _getModel(gl: WebGLRenderingContext): Record<string, unknown> {
+  _getModel(gl: WebGLRenderingContext): Model {
     /*
      *  (0, -1)-------------_(1, -1)
      *       |          _,-"  |

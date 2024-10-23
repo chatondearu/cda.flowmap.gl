@@ -5,11 +5,11 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import GL from '@luma.gl/constants';
-import {Geometry, Model} from '@luma.gl/core';
+import {GL} from '@luma.gl/constants';
+import {Geometry, Model} from '@luma.gl/engine';
 import FragmentShader from './FlowCirclesLayerFragment.glsl';
 import VertexShader from './FlowCirclesLayerVertex.glsl';
-import {FlowCirclesLayerAttributes, RGBA} from '@cda.flowmap.gl/data';
+import {FlowCirclesLayerAttributes, RGBA} from '@chatondearu/flowmap.gl.data';
 import {LayerProps} from '../types';
 
 export type FlowCirclesDatum = Record<string, unknown>;
