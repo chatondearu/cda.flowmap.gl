@@ -5,7 +5,7 @@
  */
 
 import type {GUI} from 'lil-gui';
-import {ClusterLevels} from '@flowmap.gl/data';
+import {ClusterLevels} from '@cda.flowmap.gl/data';
 export type LocationDatum = {
   id: string;
   name: string;

@@ -2,9 +2,9 @@
   import { onDestroy, setContext } from 'svelte';
   import { mapbox, key } from './mapbox.js';
   import {Deck} from "@deck.gl/core";
-  import {fetchData} from "@flowmap.gl/examples-common";
-  import {getViewStateForLocations} from "@flowmap.gl/data";
-  import {FlowmapLayer} from "@flowmap.gl/layers";
+  import {fetchData} from "@cda.flowmap.gl/examples-common";
+  import {getViewStateForLocations} from "@cda.flowmap.gl/data";
+  import {FlowmapLayer} from "@cda.flowmap.gl/layers";
 
   setContext(key, {
      getMap: () => map,

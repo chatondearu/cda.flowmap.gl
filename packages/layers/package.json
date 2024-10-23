@@ -1,11 +1,11 @@
 {
-  "name": "@flowmap.gl/layers",
+  "name": "@cda.flowmap.gl/layers",
   "version": "8.0.2",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "git@github.com:visgl/flowmap.gl.git",
-  "author": "Ilya Boyandin <ilya@boyandin.me>",
+  "repository": "git@github.com:chatondearu/cda.flowmap.gl.git",
+  "author": "ChatonDeAru <contact@chatondearu.fr> (https://chatondearu.fr)",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
     "prepare": "yarn build"
   },
   "dependencies": {
-    "@flowmap.gl/data": "^8.0.2"
+    "@cda.flowmap.gl/data": "^8.0.2"
   },
   "peerDependencies": {
     "@deck.gl/core": "^8.6.5",

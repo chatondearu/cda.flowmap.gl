@@ -6,10 +6,14 @@
 
 import {Deck} from '@deck.gl/core';
 import mapboxgl from 'mapbox-gl';
-import {FlowmapLayer} from '@flowmap.gl/layers';
+import {FlowmapLayer} from '@cda.flowmap.gl/layers';
 import {GUI} from 'lil-gui';
-import {fetchData, initLilGui, UI_INITIAL} from '@flowmap.gl/examples-common';
-import {getViewStateForLocations} from '@flowmap.gl/data';
+import {
+  fetchData,
+  initLilGui,
+  UI_INITIAL,
+} from '@cda.flowmap.gl/examples-common';
+import {getViewStateForLocations} from '@cda.flowmap.gl/data';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // eslint-disable-next-line no-undef

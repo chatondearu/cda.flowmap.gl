@@ -10,8 +10,8 @@ import {
   FlowmapLayer,
   FlowmapLayerPickingInfo,
   PickingType,
-} from '@flowmap.gl/layers';
-import {FlowmapData, getViewStateForLocations} from '@flowmap.gl/data';
+} from '@cda.flowmap.gl/layers';
+import {FlowmapData, getViewStateForLocations} from '@cda.flowmap.gl/data';
 import {Map as ReactMapGl, ViewState as ViewportProps} from 'react-map-gl';
 import {
   fetchData,
@@ -20,7 +20,7 @@ import {
   LocationDatum,
   UI_INITIAL,
   useUI,
-} from '@flowmap.gl/examples-common';
+} from '@cda.flowmap.gl/examples-common';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;

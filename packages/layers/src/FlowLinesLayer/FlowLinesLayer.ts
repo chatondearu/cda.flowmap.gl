@@ -9,7 +9,11 @@ import GL from '@luma.gl/constants';
 import {Geometry, Model} from '@luma.gl/core';
 import FragmentShader from './FlowLinesLayerFragment.glsl';
 import VertexShader from './FlowLinesLayerVertex.glsl';
-import {FlowLinesLayerAttributes, RGBA, colorAsRgba} from '@flowmap.gl/data';
+import {
+  FlowLinesLayerAttributes,
+  RGBA,
+  colorAsRgba,
+} from '@cda.flowmap.gl/data';
 import {LayerProps} from '../types';
 
 export interface Props<F> extends LayerProps {

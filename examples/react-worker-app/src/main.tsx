@@ -10,8 +10,8 @@ import App from './App.tsx'
 import './index.css'
 
 
-// import {createWorkerDataProvider, LocationFilterMode} from '@flowmap.gl/data';
-// import {FlowmapLayer} from '@flowmap.gl/layers';
+// import {createWorkerDataProvider, LocationFilterMode} from '@cda.flowmap.gl/data';
+// import {FlowmapLayer} from '@cda.flowmap.gl/layers';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

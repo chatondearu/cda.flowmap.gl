@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {FlowmapLayer} from '@flowmap.gl/layers';
-import {COLOR_SCHEMES} from '@flowmap.gl/data';
+import {FlowmapLayer} from '@cda.flowmap.gl/layers';
+import {COLOR_SCHEMES} from '@cda.flowmap.gl/data';
 
 export const UI_INITIAL = {
   darkMode: true,

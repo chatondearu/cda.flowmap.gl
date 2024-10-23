@@ -22,7 +22,7 @@ import {
   getOuterCircleRadiusByIndex,
   isFlowmapData,
   isFlowmapDataProvider,
-} from '@flowmap.gl/data';
+} from '@cda.flowmap.gl/data';
 import AnimatedFlowLinesLayer from './AnimatedFlowLinesLayer';
 import FlowCirclesLayer from './FlowCirclesLayer';
 import FlowLinesLayer from './FlowLinesLayer';
