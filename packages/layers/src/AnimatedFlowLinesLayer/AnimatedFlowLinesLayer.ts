@@ -5,12 +5,13 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import {GL} from '@luma.gl/constants';
-import {Geometry, Model} from '@luma.gl/engine';
-import FragmentShader from './AnimatedFlowLinesLayerFragment.glsl';
-import VertexShader from './AnimatedFlowLinesLayerVertex.glsl';
+import {Geometry, Model, ModelProps} from '@luma.gl/engine';
 import {FlowLinesLayerAttributes, RGBA} from '@chatondearu/flowmap.gl.data';
 import {LayerProps} from '../types';
+
+import fs from './AnimatedFlowLinesLayerFragment.glsl';
+import vs from './AnimatedFlowLinesLayerVertex.glsl';
+
 export interface Props<F> extends LayerProps {
   id: string;
   opacity?: number;
@@ -67,12 +68,11 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
     super(props);
   }
 
-  getShaders(): Record<string, unknown> {
+  getShaders(): ModelProps {
     return super.getShaders({
-      vs: VertexShader,
-      fs: FragmentShader,
+      vs,
+      fs,
       modules: [project32, picking],
-      shaderCache: this.context.shaderCache,
     });
   }
 
@@ -80,22 +80,22 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
     const attributeManager = this.getAttributeManager();
 
     /* eslint-disable max-len */
-    attributeManager.addInstanced({
+    attributeManager?.addInstanced({
       instanceSourcePositions: {
         size: 3,
-        type: GL.DOUBLE,
+        type: 'float64',
         transition: true,
         accessor: 'getSourcePosition',
       },
       instanceTargetPositions: {
         size: 3,
-        type: GL.DOUBLE,
+        type: 'float64',
         transition: true,
         accessor: 'getTargetPosition',
       },
       instanceColors: {
         size: 4,
-        type: GL.UNSIGNED_BYTE,
+        type: 'unorm8',
         transition: true,
         accessor: 'getColor',
         defaultValue: [0, 0, 0, 255],
@@ -103,7 +103,7 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
       instanceWidths: {
         size: 1,
         transition: true,
-        accessor: 'getThickness',
+        accessor: 'getWidth',
         defaultValue: 1,
       },
       instanceStaggering: {
@@ -111,27 +111,23 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
         size: 1,
         transition: false,
       },
-      instancePickable: {
-        accessor: 'getPickable',
-        size: 1,
-        transition: false,
-      },
+      // instancePickable: {
+      //   accessor: 'getPickable',
+      //   size: 1,
+      //   transition: false,
+      // },
     });
     /* eslint-enable max-len */
   }
 
-  getNeedsRedraw(): boolean {
-    return true;
-  }
+  // TODO - put the correct type for params
+  updateState(params: any): void {
+    super.updateState(params);
 
-  updateState({props, oldProps, changeFlags}: Record<string, any>): void {
-    super.updateState({props, oldProps, changeFlags});
-
-    if (changeFlags.extensionsChanged) {
-      const {gl} = this.context;
-      this.state.model?.delete();
-      this.state.model = this._getModel(gl);
-      this.getAttributeManager().invalidateAll();
+    if (params.changeFlags.extensionsChanged) {
+      this.state.model?.destroy();
+      this.state.model = this._getModel();
+      this.getAttributeManager()!.invalidateAll();
     }
   }
 
@@ -150,7 +146,7 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
       .draw();
   }
 
-  _getModel(gl: WebGLRenderingContext): Model {
+  protected _getModel(): Model {
     /*
      *  (0, -1)-------------_(1, -1)
      *       |          _,-"  |
@@ -160,18 +156,17 @@ export default class AnimatedFlowLinesLayer<F> extends Layer {
      */
     const positions = [0, -1, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0];
 
-    return new Model(
-      gl,
-      Object.assign({}, this.getShaders(), {
-        id: this.props.id,
-        geometry: new Geometry({
-          drawMode: GL.TRIANGLE_STRIP,
-          attributes: {
-            positions: new Float32Array(positions),
-          },
-        }),
-        isInstanced: true,
+    return new Model(this.context.device, {
+      ...this.getShaders(),
+      id: this.props.id,
+      bufferLayout: this.getAttributeManager()!.getBufferLayouts(),
+      geometry: new Geometry({
+        topology: 'triangle-strip',
+        attributes: {
+          positions: {size: 3, value: new Float32Array(positions)},
+        },
       }),
-    );
+      isInstanced: true,
+    });
   }
 }

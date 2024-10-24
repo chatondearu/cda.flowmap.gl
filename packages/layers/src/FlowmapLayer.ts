@@ -138,6 +138,7 @@ export default class FlowmapLayer<
   public constructor(props: FlowmapLayerProps<L, F>) {
     super({
       ...props,
+      name: 'FlowmapLayer',
       onHover: (info: PickingInfo<any>, event: SourceEvent) => {
         const startTime = Date.now();
         this.setState({

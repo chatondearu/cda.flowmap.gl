@@ -5,10 +5,9 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import {GL} from '@luma.gl/constants';
 import {Geometry, Model} from '@luma.gl/engine';
-import FragmentShader from './FlowCirclesLayerFragment.glsl';
-import VertexShader from './FlowCirclesLayerVertex.glsl';
+import fs from './FlowCirclesLayerFragment.glsl';
+import vs from './FlowCirclesLayerVertex.glsl';
 import {FlowCirclesLayerAttributes, RGBA} from '@chatondearu/flowmap.gl.data';
 import {LayerProps} from '../types';
 
@@ -54,8 +53,8 @@ class FlowCirclesLayer extends Layer {
 
   getShaders() {
     return super.getShaders({
-      vs: VertexShader,
-      fs: FragmentShader,
+      vs,
+      fs,
       modules: [project32, picking],
     });
   }
@@ -64,7 +63,7 @@ class FlowCirclesLayer extends Layer {
     this.getAttributeManager().addInstanced({
       instancePositions: {
         size: 3,
-        type: GL.DOUBLE,
+        type: 'float64',
         fp64: this.use64bitPositions(),
         transition: true,
         accessor: 'getPosition',
@@ -84,22 +83,20 @@ class FlowCirclesLayer extends Layer {
       instanceColors: {
         size: 4,
         transition: true,
-        type: GL.UNSIGNED_BYTE,
+        type: 'unorm8',
         accessor: 'getColor',
         defaultValue: DEFAULT_COLOR,
       },
     });
   }
 
-  updateState({props, oldProps, changeFlags}: any) {
-    super.updateState({props, oldProps, changeFlags});
-    if (changeFlags.extensionsChanged) {
-      const {gl} = this.context;
-      if (this.state.model) {
-        this.state.model.delete();
-      }
-      this.setState({model: this._getModel(gl)});
-      this.getAttributeManager().invalidateAll();
+  updateState(params: any): void {
+    super.updateState(params);
+
+    if (params.changeFlags.extensionsChanged) {
+      this.state.model?.destroy();
+      this.state.model = this._getModel();
+      this.getAttributeManager()!.invalidateAll();
     }
   }
 
@@ -114,24 +111,23 @@ class FlowCirclesLayer extends Layer {
       .draw();
   }
 
-  _getModel(gl: WebGLRenderingContext) {
+  _getModel() {
     // a square that minimally cover the unit circle
     const positions = [-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0];
 
-    return new Model(
-      gl,
-      Object.assign(this.getShaders(), {
-        id: this.props.id,
-        geometry: new Geometry({
-          drawMode: GL.TRIANGLE_FAN,
-          vertexCount: 4,
-          attributes: {
-            positions: {size: 3, value: new Float32Array(positions)},
-          },
-        }),
-        isInstanced: true,
+    return new Model(this.context.device, {
+      ...this.getShaders(),
+      id: this.props.id,
+      bufferLayout: this.getAttributeManager()!.getBufferLayouts(),
+      geometry: new Geometry({
+        topology: 'triangle-fan-webgl',
+        vertexCount: 4,
+        attributes: {
+          positions: {size: 3, value: new Float32Array(positions)},
+        },
       }),
-    );
+      isInstanced: true,
+    });
   }
 }
 

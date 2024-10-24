@@ -1,14 +1,20 @@
 {
   "name": "@cda.flowmap.gl/examples-common",
-  "version": "9.0.0",
+  "version": "9.0.2",
   "private": true,
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "module": "src/index.js",
   "license": "MIT",
   "dependencies": {
-    "@chatondearu/flowmap.gl.data": "^8.0.2",
-    "@chatondearu/flowmap.gl.layers": "^8.0.2",
+    "@chatondearu/flowmap.gl.data": "workspace:*",
+    "@chatondearu/flowmap.gl.layers": "workspace:*",
+    "@deck.gl/core": "^9.0.33",
+    "@deck.gl/layers": "^9.0.33",
+    "@loaders.gl/core": "^3.0.0",
+    "@luma.gl/constants": "^9.0.27",
+    "@luma.gl/core": "^9.0.27",
+    "@luma.gl/engine": "^9.0.27",
     "d3-fetch": "^3.0.1",
     "h3-js": "^4.1.0",
     "lil-gui": "^0.18.2"

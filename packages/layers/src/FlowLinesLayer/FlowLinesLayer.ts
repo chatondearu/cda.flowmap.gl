@@ -5,10 +5,9 @@
  */
 
 import {Layer, picking, project32} from '@deck.gl/core';
-import {GL} from '@luma.gl/constants';
-import {Geometry, Model} from '@luma.gl/engine';
-import FragmentShader from './FlowLinesLayerFragment.glsl';
-import VertexShader from './FlowLinesLayerVertex.glsl';
+import {Geometry, Model, ModelProps} from '@luma.gl/engine';
+import fs from './FlowLinesLayerFragment.glsl';
+import vs from './FlowLinesLayerVertex.glsl';
 import {
   FlowLinesLayerAttributes,
   RGBA,
@@ -127,30 +126,29 @@ class FlowLinesLayer<F> extends Layer {
     super(props);
   }
 
-  getShaders(): Record<string, unknown> {
+  getShaders(): ModelProps {
     return super.getShaders({
-      vs: VertexShader,
-      fs: FragmentShader,
+      vs,
+      fs,
       modules: [project32, picking],
-      shaderCache: this.context.shaderCache,
     });
   }
 
   initializeState(): void {
-    const {attributeManager} = this.state;
+    const attributeManager = this.getAttributeManager();
 
-    attributeManager.addInstanced({
+    attributeManager?.addInstanced({
       instanceSourcePositions: {
         accessor: 'getSourcePosition',
         size: 3,
         transition: false,
-        type: GL.DOUBLE,
+        type: 'float64',
       },
       instanceTargetPositions: {
         accessor: 'getTargetPosition',
         size: 3,
         transition: false,
-        type: GL.DOUBLE,
+        type: 'float64',
       },
       instanceThickness: {
         accessor: 'getThickness',
@@ -165,7 +163,7 @@ class FlowLinesLayer<F> extends Layer {
       instanceColors: {
         accessor: 'getColor',
         size: 4,
-        type: GL.UNSIGNED_BYTE,
+        type: 'unorm8',
         transition: false,
       },
       instancePickable: {
@@ -176,16 +174,13 @@ class FlowLinesLayer<F> extends Layer {
     });
   }
 
-  updateState({props, oldProps, changeFlags}: Record<string, any>): void {
-    super.updateState({props, oldProps, changeFlags});
+  updateState(params: any): void {
+    super.updateState(params);
 
-    if (changeFlags.extensionsChanged) {
-      const {gl} = this.context;
-      if (this.state.model) {
-        this.state.model.delete();
-      }
-      this.setState({model: this._getModel(gl)});
-      this.getAttributeManager().invalidateAll();
+    if (params.changeFlags.extensionsChanged) {
+      this.state.model?.destroy();
+      this.state.model = this._getModel();
+      this.getAttributeManager()!.invalidateAll();
     }
   }
 
@@ -204,7 +199,7 @@ class FlowLinesLayer<F> extends Layer {
       .draw();
   }
 
-  _getModel(gl: WebGLRenderingContext): Record<string, any> {
+  _getModel(): Model {
     let positions: number[] = [];
     let pixelOffsets: number[] = [];
 
@@ -220,18 +215,17 @@ class FlowLinesLayer<F> extends Layer {
     positions = positions.concat(POSITIONS);
     pixelOffsets = pixelOffsets.concat(ZEROES);
 
-    return new Model(gl, {
+    return new Model(this.context.device, {
       id: this.props.id,
       ...this.getShaders(),
       geometry: new Geometry({
-        drawMode: GL.TRIANGLES,
+        topology: 'triangle-list',
         attributes: {
-          positions: new Float32Array(positions),
-          normals: new Float32Array(pixelOffsets),
+          positions: {size: 3, value: new Float32Array(positions)},
+          normals: {size: 3, value: new Float32Array(pixelOffsets)},
         },
       }),
       isInstanced: true,
-      // shaderCache: this.context.shaderCache,
     });
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chatondearu/flowmap.gl.layers",
-  "version": "9.0.0",
+  "version": "9.0.2",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,8 @@
     "@deck.gl/core": "^9.0.33",
     "@deck.gl/layers": "^9.0.33",
     "@luma.gl/constants": "^9.0.27",
-    "@luma.gl/core": "^9.0.27"
+    "@luma.gl/core": "^9.0.27",
+    "@luma.gl/engine": "^9.0.27"
   },
   "gitHead": "66e2235c27734094d45099c1746e0d334be4972d",
   "publishConfig": {
